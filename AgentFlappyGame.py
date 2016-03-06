@@ -33,7 +33,6 @@ class AgentFlappy(FlappyGame.FlappyGame):
                                      str(self.pipeGapY), str(self.gridRes)])
             self.csvWriter.writerow(['episodesLasted', 'AvgScore', 'highScore'])
 
-
     def mainScreen(self, keyEvents):
         self.lastScore = 0
         if self.firstGame:
@@ -42,6 +41,8 @@ class AgentFlappy(FlappyGame.FlappyGame):
             self.agent.stopEpisode()
             self.getStatistics()
             self.checkTime()
+        if self.noGUI is True:
+            self.screen.blit(self.learningScreen, (0, 0))
         self.transitToGameScreen()
         self.agent.startEpisode()
 
@@ -100,7 +101,11 @@ class AgentFlappy(FlappyGame.FlappyGame):
     def getState(self):
         legalActions = [self.NOOP, self.FLAP]
         if self.player.alive is True:
-            reward = self.ALIVE_REWARD
+            if self.score > self.lastScore:
+                reward = 1000
+                self.lastScore = self.score
+            else:
+                reward = self.ALIVE_REWARD
         else:
             reward = self.DEATH_REWARD
 
@@ -120,7 +125,8 @@ class AgentFlappy(FlappyGame.FlappyGame):
         pipe = relevantPipe
         hDistance = int(pipe['x'] + self.images['pipe'][0].get_width() - (self.player.x + self.player.getWidth())) / self.gridRes
         vDistance = int(pipe['y'] - (self.player.y + self.player.getHeight())) / self.gridRes
-        return min(self.SCREENWIDTH / 2 / self.gridRes, hDistance), max(min(vDistance, (self.pipeGapY + 50 ) / self.gridRes), -50 / self.gridRes)
+        return min(self.SCREENWIDTH / 2 / self.gridRes, hDistance), max(min(vDistance, (self.pipeGapY + 50 ) / self.gridRes), -50 / self.gridRes), \
+               True if self.player.yVelocity > 0 else False
 
 
 class AgentFlappyMidPipe(AgentFlappy):

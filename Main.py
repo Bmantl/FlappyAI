@@ -1,5 +1,5 @@
 import FlappyGame
-import AgentFlappy
+import AgentFlappyGame
 import Agent
 import easygui
 
@@ -9,7 +9,7 @@ ValueIndeces = {'trainRuns': 0, 'epsilon': 1, 'alpha': 2, 'gamma': 3, 'pipeGapY'
 def main():
     msg = "Enter the game settings"
     title = "AI - Flappy Bird Settings:"
-    fieldNames = ["training runs","(epsilon)", "learning rate(alpha)","discount factor(gamma)", "pipe vertical gap", "FPS",
+    fieldNames = ["training runs", "exploration(epsilon)", "learning rate(alpha)","discount factor(gamma)", "pipe vertical gap", "FPS",
               "Agent", "Grid resolution", "dataType"]
     fieldValues = [10000, 0, 0.7, 0.99, 130, 30, True, 4, 1]  # we start with blanks for the values
     fieldValues = easygui.multenterbox(msg, title, fieldNames, fieldValues)
@@ -29,13 +29,13 @@ def main():
 
         agent = Agent.QLearningAgent(alpha=alpha, numTraining=trainingRuns, gamma=gamma, epsilon=epsilon)
         if dataType is 1:
-            flapGame = AgentFlappy.AgentFlappy(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
+            flapGame = AgentFlappyGame.AgentFlappy(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
         elif dataType is 2:
-            flapGame = AgentFlappy.AgentFlappyMidPipe(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
+            flapGame = AgentFlappyGame.AgentFlappyMidPipe(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
         elif dataType is 3:
-            flapGame = AgentFlappy.AgentFlappyHorizontal(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
+            flapGame = AgentFlappyGame.AgentFlappyHorizontal(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
         elif dataType is 4:
-            flapGame = AgentFlappy.AgentFlappyAll(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
+            flapGame = AgentFlappyGame.AgentFlappyAll(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=600)
 
     flapGame.startGame()
 

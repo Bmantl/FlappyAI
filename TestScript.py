@@ -1,5 +1,5 @@
 import FlappyGame
-import AgentFlappy
+import AgentFlappyGame
 import Agent
 
 pipeGapYs = range(130, 160, 10)
@@ -15,5 +15,5 @@ for pipeGapY in pipeGapYs:
             for epsilon in epsilons:
                 for gridRes in gridRess:
                     agent = Agent.QLearningAgent(alpha=alpha, numTraining=trainingRuns, gamma=gamma, epsilon=epsilon)
-                    flapGame = AgentFlappy.AgentFlappy(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=180, csvFilename='test1.csv')
+                    flapGame = AgentFlappyGame.AgentFlappy(pipeGapY, agent, gridRes=gridRes, noGUI=True, trainingTime=180, csvFilename='test1.csv')
                     flapGame.startGame()
